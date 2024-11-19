@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Weather.css";
-import axios from "axios";
 import FormattedDate from "./FormattedDate";
 import WeatherTemperature from "./WeatherTemperature";
 
@@ -18,7 +17,6 @@ export default function WeatherInfo(props) {
         <div className="col-6">
           <img src={props.data.image} alt={props.data.conditions} />
           <WeatherTemperature celcius={props.data.temperature} />
-          
         </div>
         <div className="col-6">
           <ul>
