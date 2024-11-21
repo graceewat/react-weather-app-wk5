@@ -37,11 +37,4 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "@babel/preset
-    -react": "^7.25.9"
-  }
-  {
-  "presets": ["@babel/preset-react"]
-}
 }
