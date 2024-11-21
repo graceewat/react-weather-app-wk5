@@ -1,43 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./WeatherForecast.css";
 import axios from "axios";
+import WeatherForecastDay from "./WeatherForecastDay";
 
 export default function WeatherForecast(props) {
-  const [weatherForecastData, setWeatherForecastData] = useState({
-    ready: false,
-  });
+  let [loaded, setLoaded] = useState(false);
+  let [weatherForecastData, setWeatherForecastData] = useState(null);
   function handleResponse(response) {
-    console.log(response.data);
-    setWeatherForecastData({
-      dailyData: response.data.daily,
-      ready: true,
-    });
-    console.log(setWeatherForecastData.dailyData);
+    setWeatherForecastData(response.data.daily);
+    setLoaded(true);
   }
-  if (weatherForecastData.ready) {
+  useEffect(() => {
+    setLoaded(false);
+  }, [props.city]);
+
+  if (loaded) {
     return (
       <div className="weatherForecast">
         <div className="row">
-          <div className="col">
-            <div className="weatherForecast-day">Thu</div>
-            <img
-              src={weatherForecastData.dailyData[0].condition.icon_url}
-            ></img>
-            <div className="WeatherForecast-temp">
-              <span className="WeatherForecast-temp-max">
-                {Math.round(
-                  weatherForecastData.dailyData[0].temperature.maximum
-                )}
-                °
-              </span>
-              <span className="weatherForecast-temp-min">
-                {Math.round(
-                  weatherForecastData.dailyData[0].temperature.minimum
-                )}
-                °
-              </span>
-            </div>
-          </div>
+          {weatherForecastData.map(function (dailyForecast, index) {
+            if (index < 5) {
+              return (
+                <div className="col" key={index}>
+                  <WeatherForecastDay data={dailyForecast} />
+                </div>
+              );
+            }
+          })}
         </div>
       </div>
     );
